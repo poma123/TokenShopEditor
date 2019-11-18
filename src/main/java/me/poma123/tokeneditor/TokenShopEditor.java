@@ -3,6 +3,7 @@ package me.poma123.tokeneditor;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -25,12 +26,49 @@ public final class TokenShopEditor extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        getCommand("tgive").setExecutor(new GiveCommand());
-        getCommand("tokenshopeditor").setExecutor(new EditorCommand());
         saveDefaultConfig();
         saveDefaultMsg();
+        getCommand("tgive").setExecutor(new GiveCommand());
+        getCommand("tokenshopeditor").setExecutor(new EditorCommand());
 
+
+
+        if (getConfig().getString("data-type").equalsIgnoreCase("config")) {
+            if (getConfig().isConfigurationSection("items") && getConfig().getConfigurationSection("items").getKeys(false).size() > 0) {
+                for (String path : getConfig().getConfigurationSection("items").getKeys(false)) {
+                    try {
+                        ItemStack stack = getConfig().getItemStack("items." + path);
+                        stack.getType();
+                    } catch (Exception ex) {
+                        try {
+                            ItemStack[] stacks = Utils.stacksFromBase64(getConfig().getString("items." + path));
+                            ItemStack stack = stacks[0];
+                            getConfig().set("items." + path, stack);
+                            saveConfig();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        } else {
+            if (getConfig().isConfigurationSection("items") && getConfig().getConfigurationSection("items").getKeys(false).size() > 0) {
+                for (String path : getConfig().getConfigurationSection("items").getKeys(false)) {
+                    try {
+                        ItemStack[] stacks = Utils.stacksFromBase64(getConfig().getString("items." + path));
+                        ItemStack stack = stacks[0];
+
+                    } catch (Exception ex) {
+
+                        ItemStack stack = getConfig().getItemStack("items." + path);
+                        stack.getType();
+                        getConfig().set("items." + path, stack);
+                        saveConfig();
+
+                    }
+                }
+            }
+        }
     }
 
     @Override

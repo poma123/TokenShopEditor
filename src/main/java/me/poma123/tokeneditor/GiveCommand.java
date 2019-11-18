@@ -4,6 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.ItemStack;
+
+import java.io.IOException;
 
 public class GiveCommand implements CommandExecutor {
 
@@ -30,7 +33,25 @@ public class GiveCommand implements CommandExecutor {
                     sender.sendMessage("§cEz a játékos jelenleg nem elérhető.");
                 } else {
                     if (main.getConfig().get("items." + args[1]) != null) {
-                        Bukkit.getPlayer(args[0]).getInventory().addItem(main.getConfig().getItemStack("items." + args[1]));
+
+                        if (main.getConfig().getString("data-type") != null) {
+                            if (main.getConfig().getString("data-type").equalsIgnoreCase("config")) {
+                                Bukkit.getPlayer(args[0]).getInventory().addItem(main.getConfig().getItemStack("items." + args[1]));
+
+                            } else {
+
+                                try {
+                                    ItemStack item;
+                                    ItemStack[] itemst = Utils.stacksFromBase64(main.getConfig().getString("items." + args[1]));
+                                    item = itemst[0];
+                                    if (item != null) {
+                                        Bukkit.getPlayer(args[0]).getInventory().addItem(item);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
                     } else {
                         sender.sendMessage("§cA megadott item nem létezik.");
                     }

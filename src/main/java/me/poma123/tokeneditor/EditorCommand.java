@@ -235,6 +235,20 @@ public class EditorCommand implements CommandExecutor {
                                                     String name = ChatColor.translateAlternateColorCodes('&', shop.getString("shops." + args[2] + ".items." + path + ".displayed").split(" ")[2]);
                                                     int cost = shop.getInt("shops." + args[2] + ".items." + path + ".cost");
 
+                                                    //TODO TEST
+                                                   /* String cmds = shop.getString("shops." + args[2] + ".items." + path + ".commands").split(" ")[2].replace("]", "");
+                                                    sender.sendMessage(cmds);
+                                                    if (main.getConfig().get("test." + cmds) != null) {
+                                                        try {
+                                                            ItemStack[] itemst = Utils.stacksFromBase64(main.getConfig().getString("test." + cmds));
+                                                            sender.sendMessage(itemst[0].getType().toString());
+                                                        } catch (IOException e) {
+                                                            sender.sendMessage("nop");
+                                                            e.printStackTrace();
+                                                        }
+                                                    }*/
+                                                    //TODO Test over
+
                                                     sender.sendMessage("§7| §b" + path + ". slot, §eár: " + cost + "§b, §6" + material + "§b, " + name);
                                                 }
                                                 sender.sendMessage("§7+-");
@@ -311,7 +325,12 @@ public class EditorCommand implements CommandExecutor {
                                                             }
                                                             String rnd = generateRandomString(7);
                                                             if (main.getConfig().get("items." + rnd) == null) {
-                                                                main.getConfig().set("items." + rnd, item);
+                                                                if (main.getConfig().getString("data-type").equalsIgnoreCase("config")) {
+                                                                    main.getConfig().set("items." + rnd, item);
+                                                                } else {
+                                                                    main.getConfig().set("items." + rnd, Utils.toBase64(item));
+                                                                }
+
                                                                 main.saveConfig();
                                                             }
 
