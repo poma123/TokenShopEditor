@@ -1,0 +1,17 @@
+name: TokenShopEditor
+version: ${project.version}
+main: me.poma123.tokeneditor.TokenShopEditor
+api-version: 1.14
+depend: [TokenManager]
+authors: [poma123]
+commands:
+  tokenshopeditor:
+    aliases: [tse, shopeditor, tokeneditor]
+    usage: /<command>
+  tgive:
+    usage: /<command>
+permissions:
+  tokenshopeditor.help:
+    default: op
+  tokenshopeditor.use:
+    default: op
