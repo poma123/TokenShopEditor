@@ -5,8 +5,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.logging.Level;
 
 public final class TokenShopEditor extends JavaPlugin {
 
@@ -29,8 +29,7 @@ public final class TokenShopEditor extends JavaPlugin {
         getCommand("tgive").setExecutor(new GiveCommand());
         getCommand("tokenshopeditor").setExecutor(new EditorCommand());
         saveDefaultConfig();
-
-        msg = YamlConfiguration.loadConfiguration(messages);
+        saveDefaultMsg();
 
     }
 
@@ -41,11 +40,52 @@ public final class TokenShopEditor extends JavaPlugin {
 
 
 
-    public FileConfiguration getMsg() {return msg;}
+    public FileConfiguration getMsg() {
+        if (msg == null) {
+            reloadMsg();
+        }
+        return msg;
+    }
 
-    public void saveMsg() throws IOException {msg.save(messages);}
+    
+    public void saveMsg() {
+        if (msg == null || messages == null) {
+            return;
+        }
+        try {
+            getMsg().save(messages);
+        } catch (IOException ex) {
+            getLogger().log(Level.SEVERE, "Could not save messages.yml to " + messages, ex);
+        }
+    }
+    public void reloadMsg() {
+        if (messages == null) {
+            messages = new File(getDataFolder(), "messages.yml");
+        }
+        msg = YamlConfiguration.loadConfiguration(messages);
 
-    public void reloadMsg() {msg = YamlConfiguration.loadConfiguration(messages);}
+        // Look for defaults in the jar
+        Reader defConfigStream = null;
+        try {
+            defConfigStream = new InputStreamReader(this.getResource("messages.yml"), "UTF8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            msg.setDefaults(defConfig);
+        }
+    }
+
+
+    public void saveDefaultMsg() {
+        if (messages == null) {
+            messages = new File(getDataFolder(), "messages.yml");
+        }
+        if (!messages.exists()) {
+            saveResource("messages.yml", false);
+        }
+    }
 
     @Override
     public FileConfiguration getConfig() {
