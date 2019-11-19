@@ -82,19 +82,29 @@ public final class TokenShopEditor extends JavaPlugin {
     }
 
 
-    public String getMsgString(String path) {
+    public String[] getMsgString(String path, String replacefrom, String replaceto) {
 
         if (getMsg().get(path) == null) {
             getLogger().warning("Path '" + path + "' is missing from messages.yml. Please copy the latest version from https://github.com/poma123/TokenShopEditor/tree/master/locales");
-            return "§c" + path;
+            return new String[]{"§c" + path};
         } else {
-            return ChatColor.translateAlternateColorCodes('&', getMsg().getString(path)).replace("\n", System.lineSeparator());
+            return ChatColor.translateAlternateColorCodes('&', getMsg().getString(path)).replace(replacefrom, replaceto).replace("\n", "%newline%").split("%newline%");
+        }
+    }
+
+    public String[] getMsgString(String path) {
+
+        if (getMsg().get(path) == null) {
+            getLogger().warning("Path '" + path + "' is missing from messages.yml. Please copy the latest version from https://github.com/poma123/TokenShopEditor/tree/master/locales");
+            return new String[]{"§c" + path};
+        } else {
+            return ChatColor.translateAlternateColorCodes('&', getMsg().getString(path)).replace("\n", "%newline%").split("%newline%");
         }
     }
 
     public FileConfiguration getMsg() {
         if (msg == null) {
-            reloadMsg();
+           reloadMsg();
         }
         return msg;
     }

@@ -103,7 +103,7 @@ public class EditorCommand implements CommandExecutor {
                                     if (args.length > 4) {
                                         FileConfiguration shop = TokenShopEditor.getShops();
                                         if (shop.get("shops." + args[2]) != null) {
-                                            sender.sendMessage(main.getMsgString("shop-already").replace("%shop%", args[2]));
+                                            sender.sendMessage(main.getMsgString("shop-already", "%shop%", args[2]));
                                         } else {
                                             String path = args[2].toLowerCase();
                                             int rows = 6;
@@ -131,7 +131,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 shop.save(f);
                                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tokenmanager reload");
-                                                sender.sendMessage(main.getMsgString("shop-added").replace("%shop%", path));
+                                                sender.sendMessage(main.getMsgString("shop-added", "%shop%", path));
                                             } catch (IOException e) {
 
                                                 e.printStackTrace();
@@ -160,12 +160,12 @@ public class EditorCommand implements CommandExecutor {
                                                     } catch (IOException e) {
                                                         e.printStackTrace();
                                                     }
-                                                    sender.sendMessage(main.getMsgString("shop-deleted").replace("%shop%", args[2]));
+                                                    sender.sendMessage(main.getMsgString("shop-deleted", "%shop%", args[2]));
                                                     return true;
                                                 }
 
                                             }
-                                            sender.sendMessage(main.getMsgString("shop-deleted").replace("%shop%", args[2]));
+                                            sender.sendMessage(main.getMsgString("shop-confirm", "%shop%", args[2]));
                                         } else {
                                             sender.sendMessage(main.getMsgString("shop-not-exist"));
                                         }
