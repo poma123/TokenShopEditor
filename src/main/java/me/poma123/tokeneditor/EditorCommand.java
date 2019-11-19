@@ -40,13 +40,10 @@ public class EditorCommand implements CommandExecutor {
             if (args.length == 0) {
                 if (sender.hasPermission("tokenshopeditor.help")) {
 
-
-                    FileConfiguration msg = main.getMsg();
-                    if (msg.get("help") != null) {
-                        for (String s : msg.getStringList("help")) {
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
-                        }
+                    for (String s : main.getMsg().getStringList("help")) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
                     }
+
 
                 /*    sender.sendMessage("§6 -------     §6HELP       §6------- ");
                     sender.sendMessage("§6Bolt lista:\n§e- §b/tokeneditor shop list");
@@ -67,10 +64,9 @@ public class EditorCommand implements CommandExecutor {
                             "\n§e- §b/tokeneditor item delete <bolt> <slot>");*/
                 } else {
                     //  sender.sendMessage("§cEhhez nincs jogod.");
-                    FileConfiguration msg = main.getMsg();
-                    if (msg.get("noperm") != null) {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.getString("noperm")).replace("\n", System.lineSeparator()));
-                    }
+
+                    sender.sendMessage(main.getMsgString("no-perm"));
+
                 }
 
             } else {
@@ -84,31 +80,30 @@ public class EditorCommand implements CommandExecutor {
                                 }
                                 main.getConfig().set("buy-message", String.join(" ", name));
                                 main.saveConfig();
-                                sender.sendMessage("§aVásárlási üzenet beállítva!");
+                                sender.sendMessage(main.getMsgString("setmsg"));
                             } else {
-                                sender.sendMessage("§bHasználat: §c/tokeneditor setmsg <msg>");
-                                sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
+                                sender.sendMessage(main.getMsgString("usage.setmsg"));
                             }
                         } else if (args[0].equalsIgnoreCase("shop")) {
                             if (args.length > 1) {
                                 if (args[1].equalsIgnoreCase("list")) {
                                     FileConfiguration shop = TokenShopEditor.getShops();
                                     if (shop.getConfigurationSection("shops").getKeys(false).size() > 0) {
-                                        sender.sendMessage("§7+-     §cBoltok listája");
+                                        sender.sendMessage("§7+-     §cShop list");
                                         for (String path : shop.getConfigurationSection("shops").getKeys(false)) {
                                             sender.sendMessage("§7| §b" + path);
                                         }
                                         sender.sendMessage("§7+-");
                                     } else {
-                                        //Ez elvileg lehetetlen, de azért hátha megtörténik :)
-                                        sender.sendMessage("§cNincs bolt beállítva.");
+
+                                        //This is impossible, but it can sometimes happen
+                                        sender.sendMessage(main.getMsgString("shops-empty"));
                                     }
                                 } else if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length > 4) {
                                         FileConfiguration shop = TokenShopEditor.getShops();
                                         if (shop.get("shops." + args[2]) != null) {
-                                            sender.sendMessage("§cEz a bolt már létezik, az eltávolításhoz írd be:");
-                                            sender.sendMessage("§e/tokeneditor shop delete " + args[2]);
+                                            sender.sendMessage(main.getMsgString("shop-already").replace("%shop%", args[2]));
                                         } else {
                                             String path = args[2].toLowerCase();
                                             int rows = 6;
@@ -126,7 +121,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 rows = Integer.parseInt(args[3].toLowerCase());
                                             } catch (Exception ex) {
-                                                sender.sendMessage("§cRossz GUI sorok száma értéket adtál meg, alapértelmezett szám beállítva. (6)");
+                                                sender.sendMessage(main.getMsgString("wrong-rows"));
                                             }
 
                                             // Beállítás
@@ -136,8 +131,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 shop.save(f);
                                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tokenmanager reload");
-                                                sender.sendMessage("§aSikeresen hozzáadtad a(z) " + path + "§a boltot!");
-                                                sender.sendMessage("§aHasználd a §7/tokeneditor item §aparancsot a szerkesztéshez!");
+                                                sender.sendMessage(main.getMsgString("shop-added").replace("%shop%", path));
                                             } catch (IOException e) {
 
                                                 e.printStackTrace();
@@ -149,8 +143,7 @@ public class EditorCommand implements CommandExecutor {
                                     }
 
 
-                                } else
-                                if (args[1].equalsIgnoreCase("delete")) {
+                                } else if (args[1].equalsIgnoreCase("delete")) {
                                     if (args.length > 2) {
 
                                         FileConfiguration shop = TokenShopEditor.getShops();
@@ -167,14 +160,14 @@ public class EditorCommand implements CommandExecutor {
                                                     } catch (IOException e) {
                                                         e.printStackTrace();
                                                     }
-                                                    sender.sendMessage("§aSikeresen törölted a(z) §7" + args[2] + "§a boltot!");
+                                                    sender.sendMessage(main.getMsgString("shop-deleted").replace("%shop%", args[2]));
                                                     return true;
                                                 }
 
                                             }
-                                            sender.sendMessage("§c§lBiztosan törlöd? §r§cÍrd be a §a/tokeneditor shop delete " + args[2] + " §aconfirm §cparancsot a törléshez!");
+                                            sender.sendMessage(main.getMsgString("shop-deleted").replace("%shop%", args[2]));
                                         } else {
-                                            sender.sendMessage("§cNincs ilyen bolt.");
+                                            sender.sendMessage(main.getMsgString("shop-not-exist"));
                                         }
 
                                     } else {
@@ -373,7 +366,7 @@ public class EditorCommand implements CommandExecutor {
                                                         } else {
                                                             shop.set("shops." + bolt + ".items." + slotint + ".message", "&bTM &8» &7Thanks for your purchase, %player%! &c-%price% tokens");
                                                         }
-                                                      //  shop.set("shops." + bolt + ".items." + slotint + ".message", "&6Beváltó &8» &7Köszönjük a vásárlást, %player%! &c-%price% token");
+                                                        //  shop.set("shops." + bolt + ".items." + slotint + ".message", "&6Beváltó &8» &7Köszönjük a vásárlást, %player%! &c-%price% token");
                                                         shop.set("shops." + bolt + ".items." + slotint + ".commands", Arrays.asList("tgive %player% " + rnd));
                                                         try {
                                                             shop.save(f);

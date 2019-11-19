@@ -1,6 +1,7 @@
 package me.poma123.tokeneditor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,8 @@ public class GiveCommand implements CommandExecutor {
         if (sender.hasPermission("tokenshopeditor.admin")) {
             if (args.length > 1) {
                 if (Bukkit.getPlayer(args[0]) == null) {
-                    sender.sendMessage("§cEz a játékos jelenleg nem elérhető.");
+
+                    sender.sendMessage(main.getMsgString("player-not-online"));
                 } else {
                     if (main.getConfig().get("items." + args[1]) != null) {
 
@@ -54,12 +56,13 @@ public class GiveCommand implements CommandExecutor {
                             }
                         }
                     } else {
-                        sender.sendMessage("§cA megadott item nem létezik.");
+                        sender.sendMessage(main.getMsgString("item-not-exists"));
                     }
                 }
             }
         } else {
-            sender.sendMessage("§cEhhez nincs jogod!");
+
+            sender.sendMessage(main.getMsgString("noperm"));
         }
         return true;
     }

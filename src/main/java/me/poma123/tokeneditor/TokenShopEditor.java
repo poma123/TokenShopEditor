@@ -1,6 +1,7 @@
 package me.poma123.tokeneditor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,17 @@ public final class TokenShopEditor extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+
+    public String getMsgString(String path) {
+
+        if (getMsg().get(path) == null) {
+            getLogger().warning("Path '" + path + "' is missing from messages.yml. Please copy the latest version from https://github.com/poma123/TokenShopEditor/tree/master/locales");
+            return "§c" + path;
+        } else {
+            return ChatColor.translateAlternateColorCodes('&', getMsg().getString(path)).replace("\n", System.lineSeparator());
+        }
     }
 
     public FileConfiguration getMsg() {

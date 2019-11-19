@@ -23,4 +23,6 @@ help:
   - '&e- &b/tokeneditor setmsg <msg>'
   - '&e- &7You can configure the buy message ingame,'
   - '  &7before adding a new item to the shop.'
-noperm: '&cYou do not have enough permissions.'
+no-perm: '&cYou do not have enough permissions.'
+player-not-online: '&cThis player is currently not online.'
+item-not-exists: '&cThis item does not exist.'
