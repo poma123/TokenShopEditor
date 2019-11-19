@@ -13,6 +13,9 @@ public final class TokenShopEditor extends JavaPlugin {
 
 
     private static TokenShopEditor instance;
+    File messages = new File(getDataFolder() + File.separator + "messages.yml");
+    FileConfiguration msg;
+
     public TokenShopEditor() {
         TokenShopEditor.instance = this;
     }
@@ -21,8 +24,10 @@ public final class TokenShopEditor extends JavaPlugin {
         return TokenShopEditor.instance;
     }
 
-    File messages = new File(getDataFolder() + File.separator + "messages.yml");
-    FileConfiguration msg;
+    public static FileConfiguration getShops() {
+        File f = new File(Bukkit.getPluginManager().getPlugin("TokenManager").getDataFolder() + File.separator + "shops.yml");
+        return YamlConfiguration.loadConfiguration(f);
+    }
 
     @Override
     public void onEnable() {
@@ -30,7 +35,6 @@ public final class TokenShopEditor extends JavaPlugin {
         saveDefaultMsg();
         getCommand("tgive").setExecutor(new GiveCommand());
         getCommand("tokenshopeditor").setExecutor(new EditorCommand());
-
 
 
         if (getConfig().getString("data-type").equalsIgnoreCase("config")) {
@@ -76,8 +80,6 @@ public final class TokenShopEditor extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-
-
     public FileConfiguration getMsg() {
         if (msg == null) {
             reloadMsg();
@@ -85,7 +87,6 @@ public final class TokenShopEditor extends JavaPlugin {
         return msg;
     }
 
-    
     public void saveMsg() {
         if (msg == null || messages == null) {
             return;
@@ -96,6 +97,7 @@ public final class TokenShopEditor extends JavaPlugin {
             getLogger().log(Level.SEVERE, "Could not save messages.yml to " + messages, ex);
         }
     }
+
     public void reloadMsg() {
         if (messages == null) {
             messages = new File(getDataFolder(), "messages.yml");
@@ -114,7 +116,6 @@ public final class TokenShopEditor extends JavaPlugin {
             msg.setDefaults(defConfig);
         }
     }
-
 
     public void saveDefaultMsg() {
         if (messages == null) {
@@ -139,12 +140,6 @@ public final class TokenShopEditor extends JavaPlugin {
     public void reloadConfig() {
         super.reloadConfig();
     }
-
-    public static FileConfiguration getShops() {
-        File f = new File (Bukkit.getPluginManager().getPlugin("TokenManager").getDataFolder() + File.separator + "shops.yml");
-        return YamlConfiguration.loadConfiguration(f);
-    }
-
 
 
 }

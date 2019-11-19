@@ -19,4 +19,8 @@ help:
   - '&e- &b/tokeneditor item add <shop> <slot> <price>'
   - '&6Delete items:'
   - '&e- &b/tokeneditor item delete <shop> <slot>'
+  - '&6Configure purchase message:'
+  - '&e- &b/tokeneditor setmsg <msg>'
+  - '&e- &7You can configure the buy message ingame,'
+  - '  &7before adding a new item to the shop.'
 noperm: '&cYou do not have enough permissions.'

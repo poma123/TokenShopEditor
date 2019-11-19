@@ -24,7 +24,14 @@ public class EditorCommand implements CommandExecutor {
     TokenShopEditor main = TokenShopEditor.getInstance();
 
 
-    File f = new File (Bukkit.getPluginManager().getPlugin("TokenManager").getDataFolder() + File.separator + "shops.yml");
+    File f = new File(Bukkit.getPluginManager().getPlugin("TokenManager").getDataFolder() + File.separator + "shops.yml");
+
+    public static String generateRandomString(final int length) {
+        final boolean useLetters = true;
+        final boolean useNumbers = true;
+        final String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+        return generatedString;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -32,7 +39,6 @@ public class EditorCommand implements CommandExecutor {
         if (sender instanceof Player) {
             if (args.length == 0) {
                 if (sender.hasPermission("tokenshopeditor.help")) {
-
 
 
                     FileConfiguration msg = main.getMsg();
@@ -60,7 +66,7 @@ public class EditorCommand implements CommandExecutor {
                     sender.sendMessage("§6Item törlése:" +
                             "\n§e- §b/tokeneditor item delete <bolt> <slot>");*/
                 } else {
-                  //  sender.sendMessage("§cEhhez nincs jogod.");
+                    //  sender.sendMessage("§cEhhez nincs jogod.");
                     FileConfiguration msg = main.getMsg();
                     if (msg.get("noperm") != null) {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg.getString("noperm")).replace("\n", System.lineSeparator()));
@@ -70,7 +76,20 @@ public class EditorCommand implements CommandExecutor {
             } else {
                 if (args.length > 0) {
                     if (sender.hasPermission("tokenshopeditor.use")) {
-                        if (args[0].equalsIgnoreCase("shop")) {
+                        if (args[0].equalsIgnoreCase("setmsg")) {
+                            if (args.length > 1) {
+                                List<String> name = new ArrayList<>();
+                                for (int i = 1; i < args.length; i++) {
+                                    name.add(args[i]);
+                                }
+                                main.getConfig().set("buy-message", String.join(" ", name));
+                                main.saveConfig();
+                                sender.sendMessage("§aVásárlási üzenet beállítva!");
+                            } else {
+                                sender.sendMessage("§bHasználat: §c/tokeneditor setmsg <msg>");
+                                sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
+                            }
+                        } else if (args[0].equalsIgnoreCase("shop")) {
                             if (args.length > 1) {
                                 if (args[1].equalsIgnoreCase("list")) {
                                     FileConfiguration shop = TokenShopEditor.getShops();
@@ -130,7 +149,7 @@ public class EditorCommand implements CommandExecutor {
                                     }
 
 
-                                }
+                                } else
                                 if (args[1].equalsIgnoreCase("delete")) {
                                     if (args.length > 2) {
 
@@ -204,6 +223,19 @@ public class EditorCommand implements CommandExecutor {
                                         sender.sendMessage("§bHasználat: §c/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>");
                                         sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
                                     }
+                                } else {
+                                    sender.sendMessage("§6 -------     §6HELP       §6------- ");
+                                    sender.sendMessage("§6Bolt lista:\n§e- §b/tokeneditor shop list");
+                                    sender.sendMessage("§6Bolt hozzáadás:" +
+                                            "\n§e- §b/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>" +
+                                            "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
+                                            "\n§e- §7A címben használhatsz színkódokat.");
+                                    sender.sendMessage("§6Bolt frissítése:\n§e- §b/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>" +
+                                            "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
+                                            "\n§e- §7A címben használhatsz színkódokat.");
+                                    sender.sendMessage("§6Bolt törlése:" +
+                                            "\n§e- §b/tokeneditor shop delete <azonosító>");
+
                                 }
                             } else {
                                 sender.sendMessage("§6 -------     §6HELP       §6------- ");
@@ -294,57 +326,62 @@ public class EditorCommand implements CommandExecutor {
                                                     if (!p.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
 
 
-                                                            ItemStack item = p.getInventory().getItemInMainHand();
-                                                            String displayname = "";
-                                                            Material material = item.getType();
-                                                            int amount = item.getAmount();
-                                                            String lore = "&aÁr:_%price%_token";
-                                                            String enchants = "";
+                                                        ItemStack item = p.getInventory().getItemInMainHand();
+                                                        String displayname = "";
+                                                        Material material = item.getType();
+                                                        int amount = item.getAmount();
+                                                        String lore = "&aÁr:_%price%_token";
+                                                        String enchants = "";
 
 
-                                                            if (item.hasItemMeta()) {
-                                                                ItemMeta im = item.getItemMeta();
-                                                                if (im.hasDisplayName()) {
-                                                                    displayname = "name:" + im.getDisplayName();
-                                                                    displayname = displayname.replace(" ", "_");
-                                                                }
-                                                                if (im.hasLore()) {
-                                                                    lore = String.join("|", im.getLore());
-                                                                    lore = lore.replace(" ", "_");
-                                                                    lore = lore + "|&c|&aÁr:_%price%_token";
-                                                                }
-                                                                if (im.hasEnchants()) {
-                                                                    List<String> ench = new ArrayList<>();
-                                                                    for (Enchantment en : im.getEnchants().keySet()) {
-                                                                        ench.add(en.getName().toUpperCase() + ":" + im.getEnchants().get(en));
-                                                                    }
-                                                                    enchants = String.join(" ", ench);
-                                                                }
+                                                        if (item.hasItemMeta()) {
+                                                            ItemMeta im = item.getItemMeta();
+                                                            if (im.hasDisplayName()) {
+                                                                displayname = "name:" + im.getDisplayName();
+                                                                displayname = displayname.replace(" ", "_");
                                                             }
-                                                            String rnd = generateRandomString(7);
-                                                            if (main.getConfig().get("items." + rnd) == null) {
-                                                                if (main.getConfig().getString("data-type").equalsIgnoreCase("config")) {
-                                                                    main.getConfig().set("items." + rnd, item);
-                                                                } else {
-                                                                    main.getConfig().set("items." + rnd, Utils.toBase64(item));
+                                                            if (im.hasLore()) {
+                                                                lore = String.join("|", im.getLore());
+                                                                lore = lore.replace(" ", "_");
+                                                                lore = lore + "|&c|&aÁr:_%price%_token";
+                                                            }
+                                                            if (im.hasEnchants()) {
+                                                                List<String> ench = new ArrayList<>();
+                                                                for (Enchantment en : im.getEnchants().keySet()) {
+                                                                    ench.add(en.getName().toUpperCase() + ":" + im.getEnchants().get(en));
                                                                 }
-
-                                                                main.saveConfig();
+                                                                enchants = String.join(" ", ench);
+                                                            }
+                                                        }
+                                                        String rnd = generateRandomString(7);
+                                                        if (main.getConfig().get("items." + rnd) == null) {
+                                                            if (main.getConfig().getString("data-type").equalsIgnoreCase("config")) {
+                                                                main.getConfig().set("items." + rnd, item);
+                                                            } else {
+                                                                main.getConfig().set("items." + rnd, Utils.toBase64(item));
                                                             }
 
+                                                            main.saveConfig();
+                                                        }
 
-                                                            shop.set("shops." + bolt + ".items." + slotint + ".displayed",
-                                                                    material.toString().toUpperCase() + " " + amount + " " + displayname + " lore:" + lore + " " + enchants);
-                                                            shop.set("shops." + bolt + ".items." + slotint + ".cost", cost);
-                                                            shop.set("shops." + bolt + ".items." + slotint + ".message", "&6Beváltó &8» &7Köszönjük a vásárlást, %player%! &c-%price% token");
-                                                            shop.set("shops." + bolt + ".items." + slotint + ".commands", Arrays.asList("tgive %player% " + rnd));
-                                                            try {
-                                                                shop.save(f);
-                                                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tokenmanager reload");
-                                                            } catch (IOException e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                            sender.sendMessage("§aSikeresen hozzáadtad az itemet!");
+
+                                                        shop.set("shops." + bolt + ".items." + slotint + ".displayed",
+                                                                material.toString().toUpperCase() + " " + amount + " " + displayname + " lore:" + lore + " " + enchants);
+                                                        shop.set("shops." + bolt + ".items." + slotint + ".cost", cost);
+                                                        if (main.getConfig().getString("buy-message") != null) {
+                                                            shop.set("shops." + bolt + ".items." + slotint + ".message", main.getConfig().getString("buy-message"));
+                                                        } else {
+                                                            shop.set("shops." + bolt + ".items." + slotint + ".message", "&bTM &8» &7Thanks for your purchase, %player%! &c-%price% tokens");
+                                                        }
+                                                      //  shop.set("shops." + bolt + ".items." + slotint + ".message", "&6Beváltó &8» &7Köszönjük a vásárlást, %player%! &c-%price% token");
+                                                        shop.set("shops." + bolt + ".items." + slotint + ".commands", Arrays.asList("tgive %player% " + rnd));
+                                                        try {
+                                                            shop.save(f);
+                                                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tokenmanager reload");
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        sender.sendMessage("§aSikeresen hozzáadtad az itemet!");
 
                                                     } else {
                                                         sender.sendMessage("§cNincs semmi a kezedben.");
@@ -419,12 +456,5 @@ public class EditorCommand implements CommandExecutor {
             }
         }
         return true;
-    }
-
-    public static String generateRandomString(final int length) {
-        final boolean useLetters = true;
-        final boolean useNumbers = true;
-        final String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
-        return generatedString;
     }
 }

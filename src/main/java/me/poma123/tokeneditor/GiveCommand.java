@@ -12,6 +12,7 @@ public class GiveCommand implements CommandExecutor {
 
 
     TokenShopEditor main = TokenShopEditor.getInstance();
+
     /**
      * Executes the given command, returning its success.
      * <br>

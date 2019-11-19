@@ -19,4 +19,8 @@ help:
   - '&e- &b/tokeneditor item add <bolt> <slot> <ár>'
   - '&6Item törlése:'
   - '&e- &b/tokeneditor item delete <bolt> <slot>'
+  - '&6Vásárlási üzenet beállítása:'
+  - '&e- &b/tokeneditor setmsg <msg>'
+  - '&e- &7Itt be tudod állítani a vásárlási üzenetet,'
+  - '  &7mielőtt hozzáadsz egy itemet.'
 noperm: '&cEhhez nincs jogod.'

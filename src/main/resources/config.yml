@@ -1,3 +1,7 @@
 #Here you can set whether you want to save data in config type, or in base64 coding.
 data-type: config
+
+#Message to send on purchase. Available placeholders: %player%, %price%
+#You can configure this ingame by using /tokeneditor setmsg <msg>
+buy-message: '&bTM &8» &7Thanks for your purchase, %player%! &c-%price% tokens'
 items: []
