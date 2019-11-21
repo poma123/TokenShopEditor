@@ -23,9 +23,12 @@ help:
   - '&e- &b/tokeneditor setmsg <msg>'
   - '&e- &7Itt be tudod állítani a vásárlási üzenetet,'
   - '  &7mielőtt hozzáadsz egy itemet.'
-no-perm: '&cEhhez nincs jogod.'
 usage:
   setmsg: '&bHasználat: &c/tokeneditor setmsg <msg>%newline%&bHasználhatsz színkódokat.'
+  addshop: '§bHasználat: §c/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>%newline%§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.'
+  deleteshop: '§bHasználat: §c/tokeneditor shop delete <azonosító>'
+  updateshop: '§bHasználat: §c/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>%newline%§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.'
+no-perm: '&cEhhez nincs jogod.'
 player-not-online: '&cEz a játékos jelenleg nem elérhető.'
 item-not-exists: '&cA megadott item nem létezik.'
 shop-not-exists: '&cNincs ilyen bolt.'
@@ -36,3 +39,4 @@ shop-confirm: '&c&lBiztosan törlöd? &r&cÍrd be a &a/tokeneditor shop delete %
 setmsg: '&aVásárlási üzenet beállítva!%newline%&aMost állíts be egy itemet: &7/tokeneditor item'
 shop-added: '&aSikeresen hozzáadtad a(z) &7%shop% &aboltot!%newline%&aHasználd a &7/tokeneditor item &aparancsot a szerkesztéshez!'
 shop-deleted: '&aSikeresen törölted a(z) &7%shop%&a boltot!'
+shop-updated: '&aSikeresen frissítetted a(z) &7%shop% &aboltot!%newline%&aHasználd a &7/tokeneditor item &aparancsot a szerkesztéshez!'

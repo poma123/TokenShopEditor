@@ -138,8 +138,9 @@ public class EditorCommand implements CommandExecutor {
                                             }
                                         }
                                     } else {
-                                        sender.sendMessage("§bHasználat: §c/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>");
-                                        sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
+                                        sender.sendMessage(main.getMsgString("usage.addshop"));
+                                        //sender.sendMessage("§bHasználat: §c/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>");
+                                        //sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
                                     }
 
 
@@ -171,13 +172,13 @@ public class EditorCommand implements CommandExecutor {
                                         }
 
                                     } else {
-                                        sender.sendMessage("§bHasználat: §c/tokeneditor shop delete <azonosító>");
+                                        sender.sendMessage(main.getMsgString("usage.deleteshop"));
                                     }
                                 } else if (args[1].equalsIgnoreCase("update")) {
                                     if (args.length > 4) {
                                         FileConfiguration shop = TokenShopEditor.getShops();
                                         if (shop.get("shops." + args[2]) == null) {
-                                            sender.sendMessage("§cEz a bolt nem létezik.");
+                                            sender.sendMessage(main.getMsgString("shop-not-exists"));
                                         } else {
                                             String path = args[2].toLowerCase();
                                             int rows = 6;
@@ -195,7 +196,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 rows = Integer.parseInt(args[3].toLowerCase());
                                             } catch (Exception ex) {
-                                                sender.sendMessage("§cRossz GUI sorok száma értéket adtál meg, alapértelmezett szám beállítva. (6)");
+                                                sender.sendMessage(main.getMsgString("wrong-rows"));
                                             }
 
                                             // Beállítás
@@ -204,8 +205,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 shop.save(f);
                                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tokenmanager reload");
-                                                sender.sendMessage("§aSikeresen frissítetted a(z) " + path + "§a boltot!");
-                                                sender.sendMessage("§aHasználd a §7/tokeneditor item §aparancsot a szerkesztéshez!");
+                                                sender.sendMessage(main.getMsgString("shop-updated"));
                                             } catch (IOException e) {
 
                                                 e.printStackTrace();
@@ -213,35 +213,14 @@ public class EditorCommand implements CommandExecutor {
                                         }
 
                                     } else {
-                                        sender.sendMessage("§bHasználat: §c/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>");
-                                        sender.sendMessage("§bA Gui sorok számának §e1 §bés §e6 között kell lennie! A címben használhatsz színkódokat.");
+                                        sender.sendMessage(main.getMsgString("usage.updateshop"));
                                     }
                                 } else {
-                                    sender.sendMessage("§6 -------     §6HELP       §6------- ");
-                                    sender.sendMessage("§6Bolt lista:\n§e- §b/tokeneditor shop list");
-                                    sender.sendMessage("§6Bolt hozzáadás:" +
-                                            "\n§e- §b/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>" +
-                                            "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
-                                            "\n§e- §7A címben használhatsz színkódokat.");
-                                    sender.sendMessage("§6Bolt frissítése:\n§e- §b/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>" +
-                                            "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
-                                            "\n§e- §7A címben használhatsz színkódokat.");
-                                    sender.sendMessage("§6Bolt törlése:" +
-                                            "\n§e- §b/tokeneditor shop delete <azonosító>");
+                                    sender.sendMessage(main.getMsgString("help"));
 
                                 }
                             } else {
-                                sender.sendMessage("§6 -------     §6HELP       §6------- ");
-                                sender.sendMessage("§6Bolt lista:\n§e- §b/tokeneditor shop list");
-                                sender.sendMessage("§6Bolt hozzáadás:" +
-                                        "\n§e- §b/tokeneditor shop add <azonosító> <GUI_sorok_száma> <cím>" +
-                                        "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
-                                        "\n§e- §7A címben használhatsz színkódokat.");
-                                sender.sendMessage("§6Bolt frissítése:\n§e- §b/tokeneditor shop update <azonosító> <GUI_sorok_száma> <cím>" +
-                                        "\n§e- §7A sorok számának §e1 §7és §e6§7 között kell lennie!" +
-                                        "\n§e- §7A címben használhatsz színkódokat.");
-                                sender.sendMessage("§6Bolt törlése:" +
-                                        "\n§e- §b/tokeneditor shop delete <azonosító>");
+                                sender.sendMessage(main.getMsgString("help"));
 
 
                             }
@@ -252,7 +231,7 @@ public class EditorCommand implements CommandExecutor {
                                         FileConfiguration shop = TokenShopEditor.getShops();
                                         if (shop.get("shops." + args[2].toLowerCase() + ".items") != null) {
                                             if (shop.getConfigurationSection("shops." + args[2] + ".items").getKeys(false).size() > 0) {
-                                                sender.sendMessage("§7+-  §6Item lista §7(" + args[2] + " bolt)");
+                                                sender.sendMessage("§7+-  §6Item list §7(" + args[2] + " shop)");
                                                 for (String path : shop.getConfigurationSection("shops." + args[2] + ".items").getKeys(false)) {
                                                     String material = shop.getString("shops." + args[2] + ".items." + path + ".displayed").split(" ")[0];
                                                     String name = ChatColor.translateAlternateColorCodes('&', shop.getString("shops." + args[2] + ".items." + path + ".displayed").split(" ")[2]);
@@ -272,7 +251,7 @@ public class EditorCommand implements CommandExecutor {
                                                     }*/
                                                     //TODO Test over
 
-                                                    sender.sendMessage("§7| §b" + path + ". slot, §eár: " + cost + "§b, §6" + material + "§b, " + name);
+                                                    sender.sendMessage("§7| §b" + path + ". slot, §eprice: " + cost + "§b, §6" + material + "§b, " + name);
                                                 }
                                                 sender.sendMessage("§7+-");
 
