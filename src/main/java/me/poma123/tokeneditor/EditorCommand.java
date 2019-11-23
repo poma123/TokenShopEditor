@@ -307,7 +307,7 @@ public class EditorCommand implements CommandExecutor {
                                                         String displayname = "";
                                                         Material material = item.getType();
                                                         int amount = item.getAmount();
-                                                        String lore = ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore"));//"&aÁr:_%price%_token";
+                                                        String lore = ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore").replace("_", " "));//"&aÁr:_%price%_token";
                                                         String enchants = "";
 
 
@@ -320,7 +320,7 @@ public class EditorCommand implements CommandExecutor {
                                                             if (im.hasLore()) {
                                                                 lore = String.join("|", im.getLore());
                                                                 lore = lore.replace(" ", "_");
-                                                                lore = lore + "|&c|" + ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore"));
+                                                                lore = lore + "|&c|" + ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore").replace("_", " "));
                                                             }
                                                             if (im.hasEnchants()) {
                                                                 List<String> ench = new ArrayList<>();
