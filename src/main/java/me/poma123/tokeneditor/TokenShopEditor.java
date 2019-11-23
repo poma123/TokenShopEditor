@@ -34,6 +34,8 @@ public final class TokenShopEditor extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         saveDefaultMsg();
+        getConfig().options().copyDefaults(true);
+        getMsg().options().copyDefaults(true);
         getCommand("tgive").setExecutor(new GiveCommand());
         getCommand("tokenshopeditor").setExecutor(new EditorCommand());
 
