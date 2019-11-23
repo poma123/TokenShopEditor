@@ -62,7 +62,7 @@ public class GiveCommand implements CommandExecutor {
             }
         } else {
 
-            sender.sendMessage(main.getMsgString("noperm"));
+            sender.sendMessage(main.getMsgString("no-perm"));
         }
         return true;
     }

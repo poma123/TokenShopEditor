@@ -256,13 +256,13 @@ public class EditorCommand implements CommandExecutor {
                                                 sender.sendMessage("§7+-");
 
                                             } else {
-                                                sender.sendMessage("§bEbben a boltban nincsenek még itemek.");
+                                                sender.sendMessage(main.getMsgString("shop-empty"));
                                             }
                                         } else {
-                                            sender.sendMessage("§cNincs ilyen bolt.");
+                                            sender.sendMessage(main.getMsgString("shop-not-exists"));
                                         }
                                     } else {
-                                        sender.sendMessage("§bHasználat: §c/tokeneditor item list <bolt>");
+                                        sender.sendMessage(main.getMsgString("usage.itemlist"));
                                     }
                                 } else if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length > 4) {
@@ -277,14 +277,14 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 slotint = Integer.parseInt(slot);
                                             } catch (Exception ex) {
-                                                sender.sendMessage("§cHibás slot szám: " + args[3]);
+                                                sender.sendMessage(main.getMsgString("wrong-slot", "%slot%", args[3]));
                                                 return true;
                                             }
 
                                             try {
                                                 cost = Integer.parseInt(args[4]);
                                             } catch (Exception ex) {
-                                                sender.sendMessage("§cHibás ár: " + args[4]);
+                                                sender.sendMessage(main.getMsgString("wrong-price", "%price%", args[4]));
                                                 return true;
                                             }
 
@@ -302,7 +302,7 @@ public class EditorCommand implements CommandExecutor {
                                                         String displayname = "";
                                                         Material material = item.getType();
                                                         int amount = item.getAmount();
-                                                        String lore = "&aÁr:_%price%_token";
+                                                        String lore = ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore"));//"&aÁr:_%price%_token";
                                                         String enchants = "";
 
 
@@ -315,7 +315,7 @@ public class EditorCommand implements CommandExecutor {
                                                             if (im.hasLore()) {
                                                                 lore = String.join("|", im.getLore());
                                                                 lore = lore.replace(" ", "_");
-                                                                lore = lore + "|&c|&aÁr:_%price%_token";
+                                                                lore = lore + "|&c|" + ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("lore"));
                                                             }
                                                             if (im.hasEnchants()) {
                                                                 List<String> ench = new ArrayList<>();
@@ -353,26 +353,25 @@ public class EditorCommand implements CommandExecutor {
                                                         } catch (IOException e) {
                                                             e.printStackTrace();
                                                         }
-                                                        sender.sendMessage("§aSikeresen hozzáadtad az itemet!");
+                                                        sender.sendMessage(main.getMsgString("item-added"));
 
                                                     } else {
-                                                        sender.sendMessage("§cNincs semmi a kezedben.");
+                                                        sender.sendMessage(main.getMsgString("empty-hand"));
                                                     }
                                                 } else {
-                                                    sender.sendMessage("§cEzen a sloton már létezik egy másik item.");
-                                                    sender.sendMessage("§cVálassz egy másik slotot, vagy töröld az jelenlegi itemet (/tse item delete <bolt> <slot>).");
+                                                    sender.sendMessage(main.getMsgString("item-already"));
                                                 }
 
                                             } else {
-                                                sender.sendMessage("§cHibás slot szám: " + slot);
-                                                sender.sendMessage("§cA számnak 0 és " + (rows * 9 - 1) + " közé kell esnie.");
+                                                sender.sendMessage(main.getMsgString("wrong-slot", "%slot%", slot));
+                                                sender.sendMessage(main.getMsgString("rows-hint", "%rows_max%", (rows * 9 - 1)+""));
                                             }
 
                                         } else {
-                                            sender.sendMessage("§cNincs ilyen bolt.");
+                                            sender.sendMessage(main.getMsgString("shop-not-exists"));
                                         }
                                     } else {
-                                        sender.sendMessage("§bHasználat: §c/tokeneditor item add <bolt> <slot> <ár>");
+                                        sender.sendMessage(main.getMsgString("usage.itemadd"));
                                     }
                                 } else if (args[1].equalsIgnoreCase("delete")) {
                                     if (args.length > 3) {
@@ -382,7 +381,7 @@ public class EditorCommand implements CommandExecutor {
                                             try {
                                                 Integer.parseInt(args[3]);
                                             } catch (Exception ex) {
-                                                sender.sendMessage("§cA megadott slot szám hibás: " + args[3]);
+                                                sender.sendMessage(main.getMsgString("wrong-slot", "%slot%", args[3]));
                                                 return true;
                                             }
 
@@ -397,32 +396,30 @@ public class EditorCommand implements CommandExecutor {
                                                         } catch (IOException e) {
                                                             e.printStackTrace();
                                                         }
-                                                        sender.sendMessage("§aSikeresen törölted az itemet!");
+                                                        sender.sendMessage(main.getMsgString("item-deleted"));
                                                         return true;
                                                     }
                                                 }
-                                                sender.sendMessage("§c§lBiztosan törlöd? §r§cÍrd be a §a/tokeneditor item delete " + bolt + " " + args[3] + " §aconfirm §cparancsot a törléshez!");
+                                                sender.sendMessage(main.getMsgString("item-confirm", "%shop%", bolt, "%slot%", args[3]));
+                                               // sender.sendMessage("§c§lBiztosan törlöd? §r§cÍrd be a §a/tokeneditor item delete " + bolt + " " + args[3] + " §aconfirm §cparancsot a törléshez!");
                                             } else {
-                                                sender.sendMessage("§cNincs item ezen a sloton.");
+                                                sender.sendMessage(main.getMsgString("item-not-exists"));
+                                               // sender.sendMessage("§cNincs item ezen a sloton.");
                                             }
                                         } else {
-                                            sender.sendMessage("§cNincs ilyen bolt.");
+                                            sender.sendMessage(main.getMsgString("shop-not-exists"));
+                                        //    sender.sendMessage("§cNincs ilyen bolt.");
                                         }
                                     }
                                 } else {
-                                    sender.sendMessage("§bHasználat: §c/tokeneditor item delete <bolt> <slot>");
+                                    sender.sendMessage(main.getMsgString("usage.itemdelete"));
                                 }
                             } else {
-                                sender.sendMessage("§6 -------     §6HELP       §6------- ");
-                                sender.sendMessage("§6Item lista lista:\n§e- §b/tokeneditor item list <bolt>");
-                                sender.sendMessage("§6Item hozzáadás:" +
-                                        "\n§e- §b/tokeneditor item add <bolt> <slot> <ár>");
-                                sender.sendMessage("§6Item törlése:" +
-                                        "\n§e- §b/tokeneditor item delete <bolt> <slot>");
+                                sender.sendMessage(main.getMsgString("help"));
                             }
                         }
                     } else {
-                        sender.sendMessage("§cEhhez nincs jogod.");
+                        sender.sendMessage(main.getMsgString("no-perm"));
                     }
                 }
             }

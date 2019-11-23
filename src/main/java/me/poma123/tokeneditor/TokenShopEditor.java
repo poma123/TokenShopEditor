@@ -82,6 +82,16 @@ public final class TokenShopEditor extends JavaPlugin {
     }
 
 
+    public String[] getMsgString(String path, String replacefrom, String replaceto, String replacefrom2, String replaceto2) {
+
+        if (getMsg().get(path) == null) {
+            getLogger().warning("Path '" + path + "' is missing from messages.yml. Please copy the latest version from https://github.com/poma123/TokenShopEditor/tree/master/locales");
+            return new String[]{"§c" + path};
+        } else {
+            return ChatColor.translateAlternateColorCodes('&', getMsg().getString(path)).replace(replacefrom, replaceto).replace(replacefrom2, replaceto2).replace("\n", "%newline%").split("%newline%");
+        }
+    }
+
     public String[] getMsgString(String path, String replacefrom, String replaceto) {
 
         if (getMsg().get(path) == null) {
