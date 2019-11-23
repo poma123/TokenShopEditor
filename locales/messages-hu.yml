@@ -31,6 +31,7 @@ usage:
   itemlist: '&bHasználat: &c/tokeneditor item list <bolt>'
   itemadd: '&bHasználat: &c/tokeneditor item add <bolt> <slot> <ár>'
   itemdelete: '&bHasználat: &c/tokeneditor item delete <bolt> <slot>'
+previous-setmsg: '&eEddigi üzenet: &7%msg%'
 no-perm: '&cEhhez nincs jogod.'
 player-not-online: '&cEz a játékos jelenleg nem elérhető.'
 item-not-exists: '&cA megadott item nem létezik.'

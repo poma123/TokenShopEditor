@@ -78,6 +78,7 @@ public class EditorCommand implements CommandExecutor {
                                 for (int i = 1; i < args.length; i++) {
                                     name.add(args[i]);
                                 }
+                                sender.sendMessage(main.getMsgString("previous-msg", "%msg%", ChatColor.translateAlternateColorCodes('§', main.getConfig().getString("buy-message"))));
                                 main.getConfig().set("buy-message", String.join(" ", name));
                                 main.saveConfig();
                                 sender.sendMessage(main.getMsgString("setmsg"));
@@ -216,11 +217,15 @@ public class EditorCommand implements CommandExecutor {
                                         sender.sendMessage(main.getMsgString("usage.updateshop"));
                                     }
                                 } else {
-                                    sender.sendMessage(main.getMsgString("help"));
+                                     for (String s : main.getMsg().getStringList("help")) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
+                    }
 
                                 }
                             } else {
-                                sender.sendMessage(main.getMsgString("help"));
+                                 for (String s : main.getMsg().getStringList("help")) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
+                    }
 
 
                             }
@@ -415,7 +420,9 @@ public class EditorCommand implements CommandExecutor {
                                     sender.sendMessage(main.getMsgString("usage.itemdelete"));
                                 }
                             } else {
-                                sender.sendMessage(main.getMsgString("help"));
+                                 for (String s : main.getMsg().getStringList("help")) {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
+                    }
                             }
                         }
                     } else {

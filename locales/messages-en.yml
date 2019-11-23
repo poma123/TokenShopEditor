@@ -31,6 +31,7 @@ usage:
   itemlist: '&bUsage: &c/tokeneditor item list <shop>'
   itemadd: '&bUsage: &c/tokeneditor item add <shop> <slot> <price>'
   itemdelete: '&bUsage: &c/tokeneditor item delete <shop> <slot>'
+previous-setmsg: '&eMessage until now: &7%msg%'
 no-perm: '&cYou do not have enough permissions.'
 player-not-online: '&cThis player is currently not online.'
 item-not-exists: '&cThis item does not exist.'
