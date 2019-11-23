@@ -415,9 +415,15 @@ public class EditorCommand implements CommandExecutor {
                                             sender.sendMessage(main.getMsgString("shop-not-exists"));
                                         //    sender.sendMessage("§cNincs ilyen bolt.");
                                         }
+                                    } else {
+
+                                            sender.sendMessage(main.getMsgString("usage.itemdelete"));
+
                                     }
                                 } else {
-                                    sender.sendMessage(main.getMsgString("usage.itemdelete"));
+                                    for (String s : main.getMsg().getStringList("help")) {
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s).replace("\n", System.lineSeparator()));
+                                    }
                                 }
                             } else {
                                  for (String s : main.getMsg().getStringList("help")) {
