@@ -1,0 +1,17 @@
+  
+name: Issue Response
+on: 
+  issues: 
+    types: [closed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rytswd/respost@v0.1.0
+        with:
+          title: Your issue has been closed!
+          body: |-
+            Test
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
