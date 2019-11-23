@@ -2,7 +2,9 @@
 name: Issue Response
 on: 
   issues: 
-    types: [closed]
+    types:
+    - opened
+    - closed
 
 jobs:
   comment:
