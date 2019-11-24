@@ -6,7 +6,7 @@
 
     <groupId>me.poma123</groupId>
     <artifactId>TokenEditor</artifactId>
-    <version>DEV 0.1</version>
+    <version>UNOFFICIAL</version>
     <packaging>jar</packaging>
 
     <name>TokenShopEditor</name>
