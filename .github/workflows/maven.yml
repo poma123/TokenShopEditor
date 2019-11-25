@@ -23,10 +23,10 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: mvn package --file pom.xml
-    - run: mkdir -p path/to/artifact
-      #      /home/runner/work/TokenShopEditor/TokenShopEditor/target/TokenShopEditor.jar
-    - run: cat "./target/TokenShopEditor.jar" > "path/to/artifact/TokenShopEditor.jar"
-    - uses: actions/upload-artifact@master
-      with:
-        name: TokenShopEditor Deployment
-        path: path/to/artifact
+  #  - run: mkdir -p path/to/artifact
+      ###      /home/runner/work/TokenShopEditor/TokenShopEditor/target/TokenShopEditor.jar
+  #  - run: cat "./target/TokenShopEditor.jar" > "path/to/artifact/TokenShopEditor.jar"
+  #  - uses: actions/upload-artifact@master
+  #    with:
+  #      name: TokenShopEditor Deployment
+  #      path: path/to/artifact
