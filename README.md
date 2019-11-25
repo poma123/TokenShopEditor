@@ -1,6 +1,13 @@
 # TokenShopEditor
 
-Most of the messages are still in Hungarian!
 
-You can download development builds on the "Actions" tab by clicking on Artifacts.
-![image](https://user-images.githubusercontent.com/25465545/69102629-42fae380-0a63-11ea-9d50-88fb26cf14c8.png)
+
+## Download TokenShopEditor
+Download development and release builds from here:<br>
+[Builds](https://poma123.github.io/builds/poma123/TokenShopEditor/master/)
+
+<p align="center">
+  <a href="https://poma123.github.io/builds/poma123/TokenShopEditor/master/">
+    <img src="https://poma123.github.io/builds/poma123/TokenShopEditor/master/badge.svg" alt="Build Server"/>
+  </a>
+</p>
