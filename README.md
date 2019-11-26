@@ -1,5 +1,5 @@
 # TokenShopEditor
-TokenShopEditor is a clean plugin which adds an ability to edit TokenManager's shops config INGAME.
+TokenShopEditor is a clean plugin which adds an ability to edit [TokenManager](https://www.spigotmc.org/resources/tokenmanager.8610/)'s shops config INGAME.
 
 ## Download TokenShopEditor
 Download development and release builds from here:<br>
