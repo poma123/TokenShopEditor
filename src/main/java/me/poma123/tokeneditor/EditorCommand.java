@@ -295,7 +295,7 @@ public class EditorCommand implements CommandExecutor {
 
                                             rows = shop.getInt("shops." + bolt + ".rows");
 
-                                            if (slotint < (rows * 9 - 1) && slotint >= 0) {
+                                            if (slotint <= (rows * 9 - 1) && slotint >= 0) {
 
                                                 if (shop.get("shops." + bolt + ".items." + slot) == null) {
 
